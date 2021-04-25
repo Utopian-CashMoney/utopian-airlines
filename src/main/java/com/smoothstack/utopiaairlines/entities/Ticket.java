@@ -11,7 +11,8 @@ public class Ticket implements Serializable {
     private boolean is_cancelled;
 
     // Relationships
-    // TODO: Relationships
+    private Flight flight;
+    private Traveller traveller;
 
     // Methods
 
@@ -50,5 +51,23 @@ public class Ticket implements Serializable {
 
     public void setCancelled(boolean is_cancelled) {
         this.is_cancelled = is_cancelled;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        assert(flight == null || flight.getID() == this.flight_id);
+        this.flight = flight;
+    }
+
+    public Traveller getTraveller() {
+        return traveller;
+    }
+
+    public void setTraveller(Traveller traveller) {
+        assert(traveller == null || traveller.getID() == this.traveller_id);
+        this.traveller = traveller;
     }
 }
