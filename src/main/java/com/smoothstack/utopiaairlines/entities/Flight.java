@@ -2,6 +2,7 @@ package com.smoothstack.utopiaairlines.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 public class Flight implements Serializable {
     private static final long serialVersionUID = -4262878510116123649L;
@@ -16,7 +17,9 @@ public class Flight implements Serializable {
     private int firstclass_seats;
 
     // Relationships
-    // TODO: Relationships
+    private Route route;
+    private Airplane airplane;
+    private Collection<Ticket> tickets;
 
     // Methods
 
@@ -83,11 +86,37 @@ public class Flight implements Serializable {
         this.business_seats = business_seats;
     }
 
-    public int getFirstclassSeats() {
+    public int getFirstClassSeats() {
         return firstclass_seats;
     }
 
-    public void setFirstclassSeats(int firstclass_seats) {
+    public void setFirstClassSeats(int firstclass_seats) {
         this.firstclass_seats = firstclass_seats;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        assert(route == null || route.getID() == this.route_id);
+        this.route = route;
+    }
+
+    public Airplane getAirplane() {
+        return airplane;
+    }
+
+    public void setAirplane(Airplane airplane) {
+        assert(airplane == null || airplane.getID() == this.airplane_id);
+        this.airplane = airplane;
+    }
+
+    public Collection<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Collection<Ticket> tickets) {
+        this.tickets = tickets;
     }
 }

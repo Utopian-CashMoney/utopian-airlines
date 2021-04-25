@@ -1,6 +1,7 @@
 package com.smoothstack.utopiaairlines.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 
 public class Route implements Serializable {
@@ -12,7 +13,8 @@ public class Route implements Serializable {
     private String destination_iata;
 
     // Relationships
-    // TODO: Relationships
+    private Airport origin, destination;
+    private Collection<Flight> flights;
 
 
     // Methods
@@ -46,6 +48,32 @@ public class Route implements Serializable {
 
     public void setDestinationIATA(String destination_iata) {
         this.destination_iata = destination_iata;
+    }
+
+    public Airport getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Airport origin) {
+        assert(origin == null || origin.getIATA().equals(this.origin_iata));
+        this.origin = origin;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Airport destination) {
+        assert(destination == null || destination.getIATA().equals(this.destination_iata));
+        this.destination = destination;
+    }
+
+    public Collection<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(Collection<Flight> flights) {
+        this.flights = flights;
     }
 
     @Override

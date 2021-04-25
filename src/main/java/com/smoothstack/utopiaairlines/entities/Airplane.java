@@ -1,6 +1,7 @@
 package com.smoothstack.utopiaairlines.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 
 public class Airplane implements Serializable {
@@ -11,7 +12,7 @@ public class Airplane implements Serializable {
     private int capacity;
 
     // Relationships
-    // TODO: Relationships
+    private Collection<Flight> flights;
 
     // Methods
 
@@ -35,6 +36,14 @@ public class Airplane implements Serializable {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public Collection<Flight> getFlights() {
+        return flights;
+    }
+
+    public void setFlights(Collection<Flight> flights) {
+        this.flights = flights;
     }
 
     @Override

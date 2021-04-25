@@ -1,6 +1,7 @@
 package com.smoothstack.utopiaairlines.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 
 public class Airport implements Serializable {
@@ -11,10 +12,9 @@ public class Airport implements Serializable {
     private String city;
 
     // Relationships
-    // TODO: Relationships
+    private Collection<Route> origin_of, destination_of;
 
     // Methods
-
     /**
      * Construct a new Airport
      * @param iata The 3-Character IATA identifier of the airport
@@ -25,26 +25,32 @@ public class Airport implements Serializable {
         this.city = city;
     }
 
-    /**
-     * @return The 3-Character IATA identifier of the airport
-     */
     public String getIATA() {
         return iata;
     }
 
-    /**
-     * @return The 3-Character IATA identifier of the airport
-     */
     public String getCity() {
         return city;
     }
 
-
-    /**
-     * @param city The new city
-     */
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Collection<Route> getOriginOf() {
+        return origin_of;
+    }
+
+    public void setOriginOf(Collection<Route> origin_of) {
+        this.origin_of = origin_of;
+    }
+
+    public Collection<Route> getDestinationOf() {
+        return destination_of;
+    }
+
+    public void setDestinationOf(Collection<Route> destination_of) {
+        this.destination_of = destination_of;
     }
 
     @Override
