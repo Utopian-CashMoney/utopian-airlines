@@ -4,17 +4,38 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "traveller")
 public class Traveller implements Serializable {
     private static final long serialVersionUID = 1315988496086304814L;
 
-    // Data
+    // Data  
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final int id;
+    
+    @Column(name = "given_name")
     private String given_name;
+    
+    @Column(name = "family_name")
     private String family_name;
+    
+    @Column(name = "membership_number")
     private String memebership_number;
 
     // Relationships
-    private Collection<Flight> flights;
+    @OneToMany
+    private Collection<Ticket> tickets;
+   // private Collection<Flight> flights;
 
 
     /**
@@ -58,12 +79,12 @@ public class Traveller implements Serializable {
         this.memebership_number = memebership_number;
     }
 
-    public Collection<Flight> getFlights() {
-        return flights;
+    public Collection<Ticket> getFlights() {
+        return tickets;
     }
 
-    public void setFlights(Collection<Flight> flights) {
-        this.flights = flights;
+    public void setFlights(Collection<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override

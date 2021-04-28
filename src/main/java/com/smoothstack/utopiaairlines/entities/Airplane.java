@@ -4,14 +4,28 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "airplane")
 public class Airplane implements Serializable {
     private static final long serialVersionUID = 759683393616486352L;
 
-    // Data
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final int id;
+    
+    @Column(name = "capacity")
     private int capacity;
 
     // Relationships
+    @OneToMany
     private Collection<Flight> flights;
 
     // Methods

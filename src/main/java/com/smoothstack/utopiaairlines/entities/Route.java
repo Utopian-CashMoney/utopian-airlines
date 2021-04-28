@@ -4,16 +4,43 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "route")
 public class Route implements Serializable {
     private static final long serialVersionUID = -9190994961314139861L;
 
     // Data
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final int id;
+    
+    @Column(name = "origin_id")
     private String origin_iata;
+    
+    @Column(name = "destination_id")
     private String destination_iata;
 
     // Relationships
-    private Airport origin, destination;
+    @ManyToOne
+    @JoinColumn(name = "origin_id")
+    private Airport origin;
+    
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
+    private Airport destination;
+    
+    @OneToMany
     private Collection<Flight> flights;
 
 
