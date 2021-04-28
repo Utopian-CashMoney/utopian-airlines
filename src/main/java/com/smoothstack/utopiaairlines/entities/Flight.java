@@ -4,21 +4,55 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "flight")
 public class Flight implements Serializable {
     private static final long serialVersionUID = -4262878510116123649L;
 
     // Data
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final int id;
+    
+    @ManyToOne
+    @JoinColumn(name = "route_id")
     private int route_id;
+    
+    @ManyToOne
+    @JoinColumn(name = "airplane_id")
     private int airplane_id;
+    
+    @Column(name = "departure_time")
     private LocalDateTime departure_time;
+    
+    @Column(name = "economy_seats")
     private int economy_seats;
+    
+    @Column(name = "business_seats")
     private int business_seats;
+    
+    @Column(name = "first_class")
     private int firstclass_seats;
 
     // Relationships
+    @ManyToOne
     private Route route;
+    
+    @ManyToOne
     private Airplane airplane;
+    
+    @OneToMany
     private Collection<Ticket> tickets;
 
     // Methods

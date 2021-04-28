@@ -4,14 +4,30 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "airport")
 public class Airport implements Serializable {
     private static final long serialVersionUID = 7707393142740096516L;
 
     // Data (primary key is final)
+   
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final String iata;
+    
+    @Column(name = "city")
     private String city;
 
     // Relationships
+    @OneToMany
     private Collection<Route> origin_of, destination_of;
 
     // Methods

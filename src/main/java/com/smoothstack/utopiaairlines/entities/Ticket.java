@@ -2,16 +2,37 @@ package com.smoothstack.utopiaairlines.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ticket")
 public class Ticket implements Serializable {
     private static final long serialVersionUID = -8851134397108304037L;
 
     // Data
-    private final int flight_id, traveller_id;
+    @ManyToOne
+    @JoinColumn(name = "flight_id")
+    private final int flight_id;
+    
+    @ManyToOne
+    @JoinColumn(name = "traveller_id")
+    private final int traveller_id;
+    
+    @Column(name = "seat_class")
     private String seat_class;
+    
+    @Column(name = "is_cancelled")
     private boolean is_cancelled;
 
     // Relationships
+    @ManyToOne
     private Flight flight;
+    
+    @ManyToOne
     private Traveller traveller;
 
     // Methods
