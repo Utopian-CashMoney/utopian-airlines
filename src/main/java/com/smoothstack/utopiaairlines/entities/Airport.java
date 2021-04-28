@@ -17,32 +17,28 @@ import javax.persistence.Table;
 public class Airport implements Serializable {
     private static final long serialVersionUID = 7707393142740096516L;
 
-    // Data (primary key is final)
-   
+    // Data
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final String iata;
+    private String iata_id;
     
     @Column(name = "city")
     private String city;
 
     // Relationships
-    @OneToMany
-    private Collection<Route> origin_of, destination_of;
+    @OneToMany(mappedBy = "origin")
+    private Collection<Route> origin_of;
+
+    @OneToMany(mappedBy = "destination")
+    private Collection<Route> destination_of;
 
     // Methods
-    /**
-     * Construct a new Airport
-     * @param iata The 3-Character IATA identifier of the airport
-     * @param city The city the airport resides in
-     */
-    public Airport(String iata, String city) {
-        this.iata = iata;
-        this.city = city;
+    public String getIata_id() {
+        return iata_id;
     }
 
-    public String getIATA() {
-        return iata;
+    public void setIata_id(String iata) {
+        this.iata_id = iata;
     }
 
     public String getCity() {
@@ -53,19 +49,19 @@ public class Airport implements Serializable {
         this.city = city;
     }
 
-    public Collection<Route> getOriginOf() {
+    public Collection<Route> getOrigin_of() {
         return origin_of;
     }
 
-    public void setOriginOf(Collection<Route> origin_of) {
+    public void setOrigin_of(Collection<Route> origin_of) {
         this.origin_of = origin_of;
     }
 
-    public Collection<Route> getDestinationOf() {
+    public Collection<Route> getDestination_of() {
         return destination_of;
     }
 
-    public void setDestinationOf(Collection<Route> destination_of) {
+    public void setDestination_of(Collection<Route> destination_of) {
         this.destination_of = destination_of;
     }
 
@@ -74,11 +70,11 @@ public class Airport implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Airport airport = (Airport) o;
-        return iata.equals(airport.iata);
+        return Objects.equals(iata_id, airport.iata_id) && Objects.equals(city, airport.city) && Objects.equals(origin_of, airport.origin_of) && Objects.equals(destination_of, airport.destination_of);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(iata);
+        return Objects.hash(iata_id, city, origin_of, destination_of);
     }
 }

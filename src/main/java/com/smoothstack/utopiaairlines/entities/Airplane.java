@@ -19,36 +19,29 @@ public class Airplane implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final int id;
+    private Integer id;
     
     @Column(name = "capacity")
-    private int capacity;
+    private Integer capacity;
 
     // Relationships
-    @OneToMany
+    @OneToMany(mappedBy = "airplane")
     private Collection<Flight> flights;
 
     // Methods
-
-
-    /**
-     * @param id Airplane ID
-     * @param capacity Airplane capacity
-     */
-    public Airplane(int id, int capacity) {
-        this.id = id;
-        this.capacity = capacity;
-    }
-
-    public int getID() {
+    public Integer getId() {
         return id;
     }
 
-    public int getCapacity() {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -65,11 +58,11 @@ public class Airplane implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Airplane airplane = (Airplane) o;
-        return id == airplane.id;
+        return Objects.equals(id, airplane.id) && Objects.equals(capacity, airplane.capacity) && Objects.equals(flights, airplane.flights);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, capacity, flights);
     }
 }

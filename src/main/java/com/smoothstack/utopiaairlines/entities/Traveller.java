@@ -21,7 +21,7 @@ public class Traveller implements Serializable {
     // Data  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final int id;
+    private Integer id;
     
     @Column(name = "given_name")
     private String given_name;
@@ -33,26 +33,16 @@ public class Traveller implements Serializable {
     private String memebership_number;
 
     // Relationships
-    @OneToMany
+    @OneToMany(mappedBy = "traveller")
     private Collection<Ticket> tickets;
-   // private Collection<Flight> flights;
 
-
-    /**
-     * @param id Traveller ID
-     * @param given_name First name
-     * @param family_name Last name
-     * @param memebership_number Membership ID number (is expected to know!)
-     */
-    public Traveller(int id, String given_name, String family_name, String memebership_number) {
-        this.id = id;
-        this.given_name = given_name;
-        this.family_name = family_name;
-        this.memebership_number = memebership_number;
+    // Methods
+    public Integer getId() {
+        return id;
     }
 
-    public int getID() {
-        return id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getGivenName() {
@@ -92,11 +82,11 @@ public class Traveller implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Traveller traveller = (Traveller) o;
-        return id == traveller.id;
+        return Objects.equals(id, traveller.id) && Objects.equals(given_name, traveller.given_name) && Objects.equals(family_name, traveller.family_name) && Objects.equals(memebership_number, traveller.memebership_number) && Objects.equals(tickets, traveller.tickets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, given_name, family_name, memebership_number, tickets);
     }
 }
