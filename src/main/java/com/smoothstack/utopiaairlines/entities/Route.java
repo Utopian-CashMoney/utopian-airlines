@@ -23,76 +23,27 @@ public class Route implements Serializable {
     // Data
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final int id;
-    
-    @Column(name = "origin_id")
-    private String origin_iata;
-    
-    @Column(name = "destination_id")
-    private String destination_iata;
+    private Integer id;
 
     // Relationships
-    @ManyToOne
-    @JoinColumn(name = "origin_id")
-    private Airport origin;
-    
-    @ManyToOne
-    @JoinColumn(name = "destination_id")
-    private Airport destination;
-    
-    @OneToMany
+    @OneToMany(mappedBy = "route")
     private Collection<Flight> flights;
 
+    @ManyToOne
+    @JoinColumn(name = "origin_id", referencedColumnName = "iata_id")
+    private Airport origin;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_id", referencedColumnName = "iata_id")
+    private Airport destination;
 
     // Methods
-
-    /**
-     * @param id ID of the route
-     * @param origin_iata IATA Identifier of Origin Airport
-     * @param destination_iata IATA Identifier of Destination Airport
-     */
-    public Route(int id, String origin_iata, String destination_iata) {
-        this.id = id;
-        this.origin_iata = origin_iata;
-        this.destination_iata = destination_iata;
-    }
-
-    public int getID() {
+    public Integer getId() {
         return id;
     }
 
-    public String getOriginIATA() {
-        return origin_iata;
-    }
-
-    public void setOriginIATA(String origin_iata) {
-        this.origin_iata = origin_iata;
-    }
-
-    public String getDestinationIATA() {
-        return destination_iata;
-    }
-
-    public void setDestinationIATA(String destination_iata) {
-        this.destination_iata = destination_iata;
-    }
-
-    public Airport getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(Airport origin) {
-        assert(origin == null || origin.getIATA().equals(this.origin_iata));
-        this.origin = origin;
-    }
-
-    public Airport getDestination() {
-        return destination;
-    }
-
-    public void setDestination(Airport destination) {
-        assert(destination == null || destination.getIATA().equals(this.destination_iata));
-        this.destination = destination;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Collection<Flight> getFlights() {
@@ -103,16 +54,32 @@ public class Route implements Serializable {
         this.flights = flights;
     }
 
+    public Airport getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(Airport origin) {
+        this.origin = origin;
+    }
+
+    public Airport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Airport destination) {
+        this.destination = destination;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
-        return id == route.id;
+        return Objects.equals(id, route.id) && Objects.equals(flights, route.flights) && Objects.equals(origin, route.origin) && Objects.equals(destination, route.destination);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, flights, origin, destination);
     }
 }

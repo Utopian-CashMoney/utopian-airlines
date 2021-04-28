@@ -3,6 +3,7 @@ package com.smoothstack.utopiaairlines.entities;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,15 +24,7 @@ public class Flight implements Serializable {
     // Data
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final int id;
-    
-    @ManyToOne
-    @JoinColumn(name = "route_id")
-    private int route_id;
-    
-    @ManyToOne
-    @JoinColumn(name = "airplane_id")
-    private int airplane_id;
+    private Integer id;
     
     @Column(name = "departure_time")
     private LocalDateTime departure_time;
@@ -42,89 +35,60 @@ public class Flight implements Serializable {
     @Column(name = "business_seats")
     private int business_seats;
     
-    @Column(name = "first_class")
+    @Column(name = "firstclass_seats")
     private int firstclass_seats;
 
     // Relationships
     @ManyToOne
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
     
     @ManyToOne
+    @JoinColumn(name = "airplane_id", referencedColumnName = "id")
     private Airplane airplane;
     
-    @OneToMany
+    @OneToMany(mappedBy = "flight")
     private Collection<Ticket> tickets;
 
     // Methods
 
-    /**
-     * @param id Flight ID
-     * @param route_id Route ID
-     * @param airplane_id Airplane ID
-     * @param departure_time DateTime of Departure
-     * @param economy_seats # of available economy class seats
-     * @param business_seats # of available business class seats
-     * @param firstclass_seats # of available first class seats
-     */
-    public Flight(int id, int route_id, int airplane_id, LocalDateTime departure_time, int economy_seats, int business_seats, int firstclass_seats) {
-        this.id = id;
-        this.route_id = route_id;
-        this.airplane_id = airplane_id;
-        this.departure_time = departure_time;
-        this.economy_seats = economy_seats;
-        this.business_seats = business_seats;
-        this.firstclass_seats = firstclass_seats;
-    }
-
-    public int getID() {
+    public Integer getId() {
         return id;
     }
 
-    public int getRouteID() {
-        return route_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setRouteID(int route_id) {
-        this.route_id = route_id;
-    }
-
-    public int getAirplaneID() {
-        return airplane_id;
-    }
-
-    public void setAirplaneID(int airplane_id) {
-        this.airplane_id = airplane_id;
-    }
-
-    public LocalDateTime getDepartureTime() {
+    public LocalDateTime getDeparture_time() {
         return departure_time;
     }
 
-    public void setDepartureTime(LocalDateTime departure_time) {
+    public void setDeparture_time(LocalDateTime departure_time) {
         this.departure_time = departure_time;
     }
 
-    public int getEconomySeats() {
+    public int getEconomy_seats() {
         return economy_seats;
     }
 
-    public void setEconomySeats(int economy_seats) {
+    public void setEconomy_seats(int economy_seats) {
         this.economy_seats = economy_seats;
     }
 
-    public int getBusinessSeats() {
+    public int getBusiness_seats() {
         return business_seats;
     }
 
-    public void setBusinessSeats(int business_seats) {
+    public void setBusiness_seats(int business_seats) {
         this.business_seats = business_seats;
     }
 
-    public int getFirstClassSeats() {
+    public int getFirstclass_seats() {
         return firstclass_seats;
     }
 
-    public void setFirstClassSeats(int firstclass_seats) {
+    public void setFirstclass_seats(int firstclass_seats) {
         this.firstclass_seats = firstclass_seats;
     }
 
@@ -133,7 +97,6 @@ public class Flight implements Serializable {
     }
 
     public void setRoute(Route route) {
-        assert(route == null || route.getID() == this.route_id);
         this.route = route;
     }
 
@@ -142,7 +105,6 @@ public class Flight implements Serializable {
     }
 
     public void setAirplane(Airplane airplane) {
-        assert(airplane == null || airplane.getID() == this.airplane_id);
         this.airplane = airplane;
     }
 
@@ -152,5 +114,18 @@ public class Flight implements Serializable {
 
     public void setTickets(Collection<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return economy_seats == flight.economy_seats && business_seats == flight.business_seats && firstclass_seats == flight.firstclass_seats && Objects.equals(id, flight.id) && Objects.equals(departure_time, flight.departure_time) && Objects.equals(route, flight.route) && Objects.equals(airplane, flight.airplane) && Objects.equals(tickets, flight.tickets);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, departure_time, economy_seats, business_seats, firstclass_seats, route, airplane, tickets);
     }
 }
