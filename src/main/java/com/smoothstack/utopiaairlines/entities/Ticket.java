@@ -1,5 +1,7 @@
 package com.smoothstack.utopiaairlines.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -21,11 +23,13 @@ public class Ticket implements Serializable {
     // Relationships
     @Id
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "flight_id", referencedColumnName = "id")
     private Flight flight;
 
     @Id
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "traveller_id", referencedColumnName = "id")
     private Traveller traveller;
 
