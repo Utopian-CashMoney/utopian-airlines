@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "airplane")
 public class Airplane implements Serializable {
@@ -25,6 +27,7 @@ public class Airplane implements Serializable {
     private Integer capacity;
 
     // Relationships
+    @JsonManagedReference
     @OneToMany(mappedBy = "airplane")
     private Collection<Flight> flights;
 

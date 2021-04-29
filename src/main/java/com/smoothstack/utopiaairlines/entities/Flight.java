@@ -15,6 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "flight")
@@ -27,6 +31,7 @@ public class Flight implements Serializable {
     private Integer id;
     
     @Column(name = "departure_time")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
     private LocalDateTime departure_time;
     
     @Column(name = "economy_seats")
@@ -40,10 +45,12 @@ public class Flight implements Serializable {
 
     // Relationships
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
     
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "airplane_id", referencedColumnName = "id")
     private Airplane airplane;
     
