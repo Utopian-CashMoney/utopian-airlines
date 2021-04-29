@@ -29,11 +29,11 @@ public class Airport implements Serializable {
     private String city;
 
     // Relationships
-    @JsonManagedReference
+    @JsonManagedReference(value = "airport-origin")
     @OneToMany(mappedBy = "origin")
     private Collection<Route> origin_of;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "airport-destination")
     @OneToMany(mappedBy = "destination")
     private Collection<Route> destination_of;
 

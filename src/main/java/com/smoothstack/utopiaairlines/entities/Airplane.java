@@ -28,7 +28,7 @@ public class Airplane implements Serializable {
     private Integer capacity;
 
     // Relationships
-    @JsonManagedReference
+    @JsonManagedReference(value = "airplane-flights")
     @OneToMany(mappedBy = "airplane")
     private Collection<Flight> flights;
 

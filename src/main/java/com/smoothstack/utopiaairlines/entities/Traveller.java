@@ -32,10 +32,10 @@ public class Traveller implements Serializable {
     private String familyName;
     
     @Column(name = "membership_number")
-    private String memebershipNumber;
+    private String membershipNumber;
 
     // Relationships
-    @JsonManagedReference
+    @JsonManagedReference(value = "ticket-traveller")
     @OneToMany(mappedBy = "traveller")
     private Collection<Ticket> tickets;
 
@@ -64,12 +64,12 @@ public class Traveller implements Serializable {
         this.familyName = family_name;
     }
 
-    public String getMemebershipNumber() {
-        return memebershipNumber;
+    public String getMembershipNumber() {
+        return membershipNumber;
     }
 
-    public void setMemebershipNumber(String memebership_number) {
-        this.memebershipNumber = memebership_number;
+    public void setMembershipNumber(String memebership_number) {
+        this.membershipNumber = memebership_number;
     }
 
     public Collection<Ticket> getFlights() {
@@ -85,11 +85,22 @@ public class Traveller implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Traveller traveller = (Traveller) o;
-        return Objects.equals(id, traveller.id) && Objects.equals(givenName, traveller.givenName) && Objects.equals(familyName, traveller.familyName) && Objects.equals(memebershipNumber, traveller.memebershipNumber) && Objects.equals(tickets, traveller.tickets);
+        return Objects.equals(id, traveller.id) && Objects.equals(givenName, traveller.givenName) && Objects.equals(familyName, traveller.familyName) && Objects.equals(membershipNumber, traveller.membershipNumber) && Objects.equals(tickets, traveller.tickets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, givenName, familyName, memebershipNumber, tickets);
+        return Objects.hash(id, givenName, familyName, membershipNumber, tickets);
+    }
+
+    @Override
+    public String toString() {
+        return "Traveller{" +
+                "id=" + id +
+                ", givenName='" + givenName + '\'' +
+                ", familyName='" + familyName + '\'' +
+                ", membershipNumber='" + membershipNumber + '\'' +
+                ", tickets=" + tickets +
+                '}';
     }
 }

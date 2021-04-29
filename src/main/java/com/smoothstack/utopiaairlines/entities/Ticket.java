@@ -23,13 +23,13 @@ public class Ticket implements Serializable {
     // Relationships
     @Id
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "flight-tickets")
     @JoinColumn(name = "flight_id", referencedColumnName = "id")
     private Flight flight;
 
     @Id
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "ticket-traveller")
     @JoinColumn(name = "traveller_id", referencedColumnName = "id")
     private Traveller traveller;
 
