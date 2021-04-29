@@ -24,6 +24,15 @@ public class TicketPK implements Serializable {
         this.travellerID = travellerID;
     }
 
+    public TicketPK() {
+
+    }
+
+    public TicketPK(Integer flightID, Integer travellerID) {
+        this.flightID = flightID;
+        this.travellerID = travellerID;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

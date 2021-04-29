@@ -15,11 +15,11 @@ public class Ticket implements Serializable {
 
     // Data
     @Id
-    @Column(name = "flight_id")
+    @Column(name = "flight_id", insertable = false, updatable = false)
     private Integer flightID;
 
     @Id
-    @Column(name = "traveller_id")
+    @Column(name = "traveller_id", insertable = false, updatable = false)
     private Integer travellerID;
 
     @Column(name = "seat_class")
@@ -28,14 +28,14 @@ public class Ticket implements Serializable {
     @Column(name = "is_cancelled")
     private boolean isCancelled;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference(value="flight-tickets")
-    @JoinColumn(name="flight_id", referencedColumnName ="id", insertable = false, updatable = false)
+    @JoinColumn(name="flight_id", referencedColumnName ="id")
     protected Flight flight;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference(value="ticket-traveller")
-    @JoinColumn(name="traveller_id", referencedColumnName ="id", insertable = false, updatable = false)
+    @JoinColumn(name="traveller_id", referencedColumnName ="id")
     protected Traveller traveller;
 
     // Methods
@@ -47,7 +47,7 @@ public class Ticket implements Serializable {
         this.seatClass = seat_class;
     }
 
-    public boolean isIsCancelled() {
+    public boolean isCancelled() {
         return isCancelled;
     }
 
@@ -63,20 +63,24 @@ public class Ticket implements Serializable {
         return traveller;
     }
 
+    public void setFlight(Flight flight) {
+        if(flight != null) this.flightID = flight.getId();
+        else this.flightID = null;
+        this.flight = flight;
+    }
+
+    public void setTraveller(Traveller traveller) {
+        if(traveller != null) this.travellerID = traveller.getId();
+        else this.travellerID = null;
+        this.traveller = traveller;
+    }
+
     public Integer getFlightID() {
         return flightID;
     }
 
-    public void setFlightID(Integer flightID) {
-        this.flightID = flightID;
-    }
-
     public Integer getTravellerID() {
         return travellerID;
-    }
-
-    public void setTravellerID(Integer travellerID) {
-        this.travellerID = travellerID;
     }
 
     @Override
