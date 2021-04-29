@@ -49,11 +49,11 @@ public class Flight implements Serializable {
     private Route route;
     
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "airplane-flights")
     @JoinColumn(name = "airplane_id", referencedColumnName = "id")
     private Airplane airplane;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "flight-tickets")
     @OneToMany(mappedBy = "flight")
     private Collection<Ticket> tickets;
 

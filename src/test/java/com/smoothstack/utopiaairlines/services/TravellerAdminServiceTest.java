@@ -45,20 +45,20 @@ class TravellerAdminServiceTest {
 
         // Mocks
         Mockito.when(travellerDaoMock.findAll()).thenReturn(mockData);
-        Mockito.when(travellerDaoMock.findByGivenNameLike("given")).thenReturn(mockData);
-        Mockito.when(travellerDaoMock.findByGivenNameLike("given1")).thenReturn(
+        Mockito.when(travellerDaoMock.findByGivenNameLike("%given%")).thenReturn(mockData);
+        Mockito.when(travellerDaoMock.findByGivenNameLike("%given1%")).thenReturn(
                 mockData.stream().filter(traveller -> traveller.getGivenName().equals("given1"))
                         .collect(Collectors.toList())
         );
 
-        Mockito.when(travellerDaoMock.findByFamilyNameLike("family")).thenReturn(mockData);
-        Mockito.when(travellerDaoMock.findByFamilyNameLike("family1")).thenReturn(
+        Mockito.when(travellerDaoMock.findByFamilyNameLike("%family%")).thenReturn(mockData);
+        Mockito.when(travellerDaoMock.findByFamilyNameLike("%family1%")).thenReturn(
                 mockData.stream().filter(traveller -> traveller.getFamilyName().equals("family1"))
                         .collect(Collectors.toList())
         );
 
-        Mockito.when(travellerDaoMock.findByMembershipNumberLike("mem")).thenReturn(mockData);
-        Mockito.when(travellerDaoMock.findByMembershipNumberLike("mem1")).thenReturn(
+        Mockito.when(travellerDaoMock.findByMembershipNumberLike("%mem%")).thenReturn(mockData);
+        Mockito.when(travellerDaoMock.findByMembershipNumberLike("%mem1%")).thenReturn(
                 mockData.stream().filter(traveller -> traveller.getMembershipNumber().equals("mem1"))
                         .collect(Collectors.toList())
         );
@@ -89,21 +89,27 @@ class TravellerAdminServiceTest {
 
     @Test
     void updateGivenNameByMembershipNumberTest() {
-        // TODO
+        assertTrue(travellerAdminService.updateGivenNameByMembershipNumber("mem1", ""));
+        assertFalse(travellerAdminService.updateGivenNameByMembershipNumber("mem3", ""));
+        assertNull(travellerAdminService.updateGivenNameByMembershipNumber("mem", ""));
     }
 
     @Test
     void updateFamilyNameByMembershipNumberTest() {
-        // TODO
+        assertTrue(travellerAdminService.updateFamilyNameByMembershipNumber("mem1", ""));
+        assertFalse(travellerAdminService.updateFamilyNameByMembershipNumber("mem3", ""));
+        assertNull(travellerAdminService.updateFamilyNameByMembershipNumber("mem", ""));
     }
 
     @Test
     void deleteByFamilyNameTest() {
-        // TODO
+        assertEquals(2, travellerAdminService.deleteByFamilyName("family"));
+        assertEquals(1, travellerAdminService.deleteByFamilyName("family1"));
     }
 
     @Test
     void deleteByMembershipNumberTest() {
-        // TODO
+        assertEquals(2, travellerAdminService.deleteByMembershipNumber("mem"));
+        assertEquals(1, travellerAdminService.deleteByMembershipNumber("mem1"));
     }
 }

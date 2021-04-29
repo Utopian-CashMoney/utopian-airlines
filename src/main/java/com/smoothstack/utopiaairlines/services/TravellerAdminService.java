@@ -96,8 +96,8 @@ public class TravellerAdminService {
      * @author Joshua Podhola
      * @param traveller The traveller to create
      */
-    public void create(Traveller traveller) {
-        travellerDao.save(traveller);
+    public Traveller create(Traveller traveller) {
+        return travellerDao.save(traveller);
     }
 
     /**

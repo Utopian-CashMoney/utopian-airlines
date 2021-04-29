@@ -35,12 +35,12 @@ public class Route implements Serializable {
     private Collection<Flight> flights;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "airport-origin")
     @JoinColumn(name = "origin_id", referencedColumnName = "iata_id")
     private Airport origin;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "airport-destination")
     @JoinColumn(name = "destination_id", referencedColumnName = "iata_id")
     private Airport destination;
 

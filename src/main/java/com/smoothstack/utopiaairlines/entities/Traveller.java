@@ -35,7 +35,7 @@ public class Traveller implements Serializable {
     private String membershipNumber;
 
     // Relationships
-    @JsonManagedReference
+    @JsonManagedReference(value = "ticket-traveller")
     @OneToMany(mappedBy = "traveller")
     private Collection<Ticket> tickets;
 
