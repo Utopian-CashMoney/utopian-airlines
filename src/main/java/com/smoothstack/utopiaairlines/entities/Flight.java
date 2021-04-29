@@ -44,7 +44,7 @@ public class Flight implements Serializable {
 
     // Relationships
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "route-flight")
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
     

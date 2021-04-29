@@ -30,7 +30,7 @@ public class Route implements Serializable {
     private Integer id;
 
     // Relationships
-    @JsonManagedReference
+    @JsonManagedReference(value = "route-flight")
     @OneToMany(mappedBy = "route")
     private Collection<Flight> flights;
 
