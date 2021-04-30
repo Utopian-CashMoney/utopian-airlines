@@ -1,6 +1,7 @@
 package com.smoothstack.utopiaairlines.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,25 @@ public class AirplaneService {
 	
 	
 	// Read all airplanes
-	public List<Airplane> getAllAirplanes(){
+	public List<Airplane> findAirplanes(){
 		List<Airplane> airplanes = airplaneDao.findAll();
 		return airplanes;
 	}
 	
+	// Read airplane by ID
+	public Optional<Airplane> findAirplaneById(Integer id){
+		Optional<Airplane> airplanes = airplaneDao.findById(id);
+		return airplanes;
+	}
 	
-	// Update airplane
-	public void updateAirplane(Airplane airplane){
-		//airplaneDao.save(airplane); 
+	
+	// Update airplane By Id
+	public void updateAirplaneById(Integer id, Integer capacity){
+		Optional<Airplane> airplanes = findAirplaneById(id);
+		Airplane airplane = airplanes.get();
+		airplane.setId(id);
+		airplane.setCapacity(capacity);
 		
-		airplaneDao.findById(airplane.getId());
 		airplaneDao.save(airplane);
 	    
 	}
