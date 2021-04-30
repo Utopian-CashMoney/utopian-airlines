@@ -1,9 +1,7 @@
 package com.smoothstack.utopiaairlines.dao;
 
-import com.smoothstack.utopiaairlines.entities.Flight;
 import com.smoothstack.utopiaairlines.entities.Ticket;
 import com.smoothstack.utopiaairlines.entities.TicketPK;
-import com.smoothstack.utopiaairlines.entities.Traveller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +33,8 @@ class TicketDaoTest {
         //ticket.setFlightID(1);
         ticket.setFlight(flightDao.getOne(1));
         ticket.setTraveller(travellerDao.getOne(1));
-        ticket.setIsCancelled(false);
-        ticket.setSeatClass("ECONOMY");
+        ticket.setIs_cancelled(false);
+        ticket.setSeat_class("ECONOMY");
         ticketDao.saveAndFlush(ticket);
         ticket = ticketDao.getOne(new TicketPK(ticket.getFlightID(), ticket.getTravellerID()));
     }

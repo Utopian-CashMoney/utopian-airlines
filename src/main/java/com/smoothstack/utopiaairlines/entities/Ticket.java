@@ -23,10 +23,10 @@ public class Ticket implements Serializable {
     private Integer travellerID;
 
     @Column(name = "seat_class")
-    private String seatClass;
+    private String seat_class;
     
     @Column(name = "is_cancelled")
-    private boolean isCancelled;
+    private boolean is_cancelled;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference(value="flight-tickets")
@@ -39,20 +39,20 @@ public class Ticket implements Serializable {
     protected Traveller traveller;
 
     // Methods
-    public String getSeatClass() {
-        return seatClass;
+    public String getSeat_class() {
+        return seat_class;
     }
 
-    public void setSeatClass(String seat_class) {
-        this.seatClass = seat_class;
+    public void setSeat_class(String seat_class) {
+        this.seat_class = seat_class;
     }
 
     public boolean isCancelled() {
-        return isCancelled;
+        return is_cancelled;
     }
 
-    public void setIsCancelled(boolean is_cancelled) {
-        this.isCancelled = is_cancelled;
+    public void setIs_cancelled(boolean is_cancelled) {
+        this.is_cancelled = is_cancelled;
     }
 
     public Flight getFlight() {
@@ -88,11 +88,11 @@ public class Ticket implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return isCancelled == ticket.isCancelled && Objects.equals(seatClass, ticket.seatClass) && Objects.equals(flight, ticket.flight) && Objects.equals(traveller, ticket.traveller);
+        return is_cancelled == ticket.is_cancelled && Objects.equals(seat_class, ticket.seat_class) && Objects.equals(flight, ticket.flight) && Objects.equals(traveller, ticket.traveller);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seatClass, isCancelled, flight, traveller);
+        return Objects.hash(seat_class, is_cancelled, flight, traveller);
     }
 }
