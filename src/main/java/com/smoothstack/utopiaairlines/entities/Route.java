@@ -1,5 +1,9 @@
 package com.smoothstack.utopiaairlines.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -25,14 +29,17 @@ public class Route implements Serializable {
     private Integer id;
 
     // Relationships
+    @JsonManagedReference
     @OneToMany(mappedBy = "route")
     private Collection<Flight> flights;
 
     @ManyToOne
+    @JsonBackReference(value = "airport-origin")
     @JoinColumn(name = "origin_id", referencedColumnName = "iata_id")
     private Airport origin;
 
     @ManyToOne
+    @JsonBackReference(value = "airport-destination")
     @JoinColumn(name = "destination_id", referencedColumnName = "iata_id")
     private Airport destination;
 
