@@ -1,5 +1,7 @@
 package com.smoothstack.utopiaairlines.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
@@ -24,15 +26,16 @@ public class Traveller implements Serializable {
     private Integer id;
     
     @Column(name = "given_name")
-    private String given_name;
+    private String givenName;
     
     @Column(name = "family_name")
-    private String family_name;
+    private String familyName;
     
     @Column(name = "membership_number")
-    private String memebership_number;
+    private String membershipNumber;
 
     // Relationships
+    @JsonManagedReference(value = "ticket-traveller")
     @OneToMany(mappedBy = "traveller")
     private Collection<Ticket> tickets;
 
@@ -46,27 +49,27 @@ public class Traveller implements Serializable {
     }
 
     public String getGivenName() {
-        return given_name;
+        return givenName;
     }
 
     public void setGivenName(String given_name) {
-        this.given_name = given_name;
+        this.givenName = given_name;
     }
 
     public String getFamilyName() {
-        return family_name;
+        return familyName;
     }
 
     public void setFamilyName(String family_name) {
-        this.family_name = family_name;
+        this.familyName = family_name;
     }
 
-    public String getMemebershipNumber() {
-        return memebership_number;
+    public String getMembershipNumber() {
+        return membershipNumber;
     }
 
-    public void setMemebershipNumber(String memebership_number) {
-        this.memebership_number = memebership_number;
+    public void setMembershipNumber(String memebership_number) {
+        this.membershipNumber = memebership_number;
     }
 
     public Collection<Ticket> getFlights() {
@@ -82,11 +85,22 @@ public class Traveller implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Traveller traveller = (Traveller) o;
-        return Objects.equals(id, traveller.id) && Objects.equals(given_name, traveller.given_name) && Objects.equals(family_name, traveller.family_name) && Objects.equals(memebership_number, traveller.memebership_number) && Objects.equals(tickets, traveller.tickets);
+        return Objects.equals(id, traveller.id) && Objects.equals(givenName, traveller.givenName) && Objects.equals(familyName, traveller.familyName) && Objects.equals(membershipNumber, traveller.membershipNumber) && Objects.equals(tickets, traveller.tickets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, given_name, family_name, memebership_number, tickets);
+        return Objects.hash(id, givenName, familyName, membershipNumber, tickets);
+    }
+
+    @Override
+    public String toString() {
+        return "Traveller{" +
+                "id=" + id +
+                ", givenName='" + givenName + '\'' +
+                ", familyName='" + familyName + '\'' +
+                ", membershipNumber='" + membershipNumber + '\'' +
+                ", tickets=" + tickets +
+                '}';
     }
 }
