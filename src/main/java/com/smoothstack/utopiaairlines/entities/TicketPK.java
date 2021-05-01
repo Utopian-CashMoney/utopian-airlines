@@ -1,28 +1,36 @@
 package com.smoothstack.utopiaairlines.entities;
 
-
 import java.io.Serializable;
 import java.util.Objects;
 
 public class TicketPK implements Serializable {
-    private static final long serialVersionUID = 5464384774151807355L;
-    private Traveller traveller;
-    private Flight flight;
+    private static final long serialVersionUID = -345755094328368054L;
+    protected Integer flightID;
+    protected Integer travellerID;
 
-    public Traveller getTraveller() {
-        return traveller;
+    public Integer getFlightID() {
+        return flightID;
     }
 
-    public void setTraveller(Traveller traveller) {
-        this.traveller = traveller;
+    public void setFlightID(Integer flightID) {
+        this.flightID = flightID;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public Integer getTravellerID() {
+        return travellerID;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setTravellerID(Integer travellerID) {
+        this.travellerID = travellerID;
+    }
+
+    public TicketPK() {
+
+    }
+
+    public TicketPK(Integer flightID, Integer travellerID) {
+        this.flightID = flightID;
+        this.travellerID = travellerID;
     }
 
     @Override
@@ -30,11 +38,11 @@ public class TicketPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TicketPK ticketPK = (TicketPK) o;
-        return Objects.equals(traveller, ticketPK.traveller) && Objects.equals(flight, ticketPK.flight);
+        return Objects.equals(flightID, ticketPK.flightID) && Objects.equals(travellerID, ticketPK.travellerID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(traveller, flight);
+        return Objects.hash(flightID, travellerID);
     }
 }
