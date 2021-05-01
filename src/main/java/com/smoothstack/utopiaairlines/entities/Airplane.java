@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+
 @Entity
 @Table(name = "airplane")
 public class Airplane implements Serializable {

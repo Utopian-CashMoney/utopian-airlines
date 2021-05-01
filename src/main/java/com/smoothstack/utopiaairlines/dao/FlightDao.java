@@ -1,13 +1,12 @@
 package com.smoothstack.utopiaairlines.dao;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +18,30 @@ public interface FlightDao extends JpaRepository<Flight, Integer> {
 	
 	List<Flight> findByRouteId(Integer id);
 	List<Flight> findByAirplaneId(Integer id);
-		
+	
 	@Query(
-			  value = "SELECT * FROM flight f WHERE f.departure_time = ?", 
+			  value = "select * from flight where DATE(departure_time) = ?", 
 			  nativeQuery = true)
-	List<Flight> findByDT(LocalDateTime dateTime);
+	List<Flight> findByDate(Date date);
+	
+	
+	@Query(
+			  value = "select * from flight where DATE(departure_time) < ?", 
+			  nativeQuery = true)
+	List<Flight> findByDateBefore(Date date);
+	
+	
+	@Query(
+			  value = "select * from flight where DATE(departure_time) BETWEEN ? AND ?", 
+			  nativeQuery = true)
+	List<Flight> findByDateBetween(Date dateStart, Date dateEnd);
+	
+	
+	@Query(
+			  value = "select * from flight where DATE(departure_time) > ?", 
+			  nativeQuery = true)
+
+	List<Flight> findByDateAfter(Date date);
 	
 	Optional<Flight> findById(Integer id);
 

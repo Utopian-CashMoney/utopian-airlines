@@ -2,17 +2,20 @@ package com.smoothstack.utopiaairlines.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.smoothstack.utopiaairlines.entities.Airplane;
 import com.smoothstack.utopiaairlines.entities.Flight;
 import com.smoothstack.utopiaairlines.service.AirplaneService;
@@ -48,16 +51,16 @@ public class AdminController {
 	}
 
 	// Read Airplanes By ID, returns "NULL" if inputted Id not found.
-	@GetMapping("/routes/airplane/read/id/{id}")
-	public Optional<Airplane> getAirplanesById(@PathVariable Integer id) {
+	@GetMapping("/routes/airplane/read/id")	
+	public Optional<Airplane> getAirplanesById(@RequestParam ("id") Integer id) {
 		Optional<Airplane> airplanes = airplaneService.findAirplaneById(id);
 		return airplanes;
 	}
 
 	
 	//Update Airplane By ID
-	@PutMapping("/routes/airplane/update/id/capacity/{id}/{capacity}")
-	public String updateAirplaneById(@PathVariable Integer id, @PathVariable Integer capacity) {
+	@PutMapping("/routes/airplane/update/id/capacity")
+	public String updateAirplaneById(@RequestParam ("id") Integer id, @RequestParam ("cap") Integer capacity) {
 		airplaneService.updateAirplaneById(id, capacity);
 		return "Airplane Successfully Upated!";
 	}
@@ -65,8 +68,8 @@ public class AdminController {
 
 
 	// Delete Airplane
-	@DeleteMapping("/routes/airplane/delete/{id}")
-	public String deleteAirplane(@PathVariable Integer id) {
+	@DeleteMapping("/routes/airplane/delete")
+	public String deleteAirplane(@RequestParam ("id") Integer id) {
 		airplaneService.deleteAirplane(id);
 		return "Airplane Deleted!";
 	}
@@ -91,9 +94,11 @@ public class AdminController {
 	}
 
 
+	// HEREEEEEEEEEEEEEEEEE
+	
 	// Read Flights by Route ID 
-	@GetMapping("/routes/flight/read/route_id/{routeId}")
-	public List<Flight> getFlightsByRouteId(@PathVariable Integer routeId) {
+	@GetMapping("/routes/flight/read/route_id")
+	public List<Flight> getFlightsByRouteId(@RequestParam ("routeid") Integer routeId) {
 		List<Flight> flights = new ArrayList<>();
 		flights = flightService.findFlightsByRouteId(routeId);
 		return flights;
@@ -101,23 +106,60 @@ public class AdminController {
 
 
 	// Read Flights by Airplane ID
-	@GetMapping("/routes/flight/read/airplane_id/{airplaneId}")
-	public List<Flight> getFlightsByAirplaneId(@PathVariable Integer airplaneId) {
+	@GetMapping("/routes/flight/read/airplane_id")
+	public List<Flight> getFlightsByAirplaneId(@RequestParam ("airplaneid") Integer airplaneId) {
 		List<Flight> flights = new ArrayList<>();
 		flights = flightService.findFlightsByAirplaneId(airplaneId);
 		return flights;
 	}
 	
-	// Read Flights by Date Time 
-	@GetMapping("/routes/flight/read/date_time/{dateTime}")
-	public List<Flight> getFlightsByDateTime(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
+	/*// Read Flights by Date Time 
+	@GetMapping("/routes/flight/read/date_time")
+	public List<Flight> getFlightsByDateTime(@RequestParam("datetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
 		List<Flight> flights = new ArrayList<>();
 		flights = flightService.findFlightsByDateTime(dateTime);
 		return flights;
+	}*/
+	
+	
+	// Read Flights by Date 
+	@GetMapping("/routes/flight/read/date")
+	public List<Flight> getFlightsByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		List<Flight> flights = new ArrayList<>();
+		flights = flightService.findFlightsByDate(date);
+		return flights;													
 	}
+	
+	
+	// Read all the Flights flying before the provided date
+	@GetMapping("/routes/flight/read/datebefore")
+	public List<Flight> getFlightsByDateBefore(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		List<Flight> flights = new ArrayList<>();
+		flights = flightService.findFlightsByDateBefore(date);
+		return flights;													
+	}
+	
+	
+	// Read all the Flights flying after the provided date
+	@GetMapping("/routes/flight/read/dateafter")
+	public List<Flight> getFlightsByDateAfter(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		List<Flight> flights = new ArrayList<>();
+		flights = flightService.findFlightsByDateAfter(date);
+		return flights;													
+	}
+	
+	
+	// Read all the Flights flying netween the provided date
+	@GetMapping("/routes/flight/read/datebetween")
+	public List<Flight> getFlightsByDateBetween(@RequestParam("dateStart") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateStart, @RequestParam("dateEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateEnd) {
+		List<Flight> flights = new ArrayList<>();
+		flights = flightService.findFlightsByDateBetween(dateStart, dateEnd);
+		return flights;													
+	}
+	
 
 
-	//Update Whole Flight by Flight ID
+	//Update Whole Flight by providing body
 	@PutMapping("/routes/flight/update")
 	public String updateFlight(@RequestBody Flight flight) {
 		flightService.updateFlight(flight);
@@ -125,23 +167,23 @@ public class AdminController {
 	}
 	
 	//Update Route ID by Flight ID
-	@PutMapping("/routes/flight/update/flight_id/route_id/{id}/{routeId}")
-	public String updateRouteIdByFlightId(@PathVariable Integer id, @PathVariable Integer routeId) {
+	@PutMapping("/routes/flight/update/flight_id/route_id")
+	public String updateRouteIdByFlightId(@RequestParam("id") Integer id, @RequestParam("routeid") Integer routeId) {
 		flightService.updateRouteIdByFlightId(id, routeId);
 		return "Route ID Successfully Upated!";
 	}
 	
 	//Update Airplane ID by Flight ID
-	@PutMapping("/routes/flight/update/flight_id/airplane_id/{id}/{airplaneId}")
-	public String updateAirplaneIdByFlightId(@PathVariable Integer id, @PathVariable Integer airplaneId) {
+	@PutMapping("/routes/flight/update/flight_id/airplane_id")
+	public String updateAirplaneIdByFlightId(@RequestParam("id") Integer id, @RequestParam("airplaneid") Integer airplaneId) {
 		flightService.updateAirplaneIdByFlightId(id, airplaneId);
 		return "Airplane ID Successfully Upated!";
 	}
 	
 	
 	//Update Departure Date Time by Flight ID
-	@PutMapping("/routes/flight/update/flight_id/departure_time/{id}/{dateTime}")
-	public String updateDateTimeByFlightId(@PathVariable Integer id, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
+	@PutMapping("/routes/flight/update/flight_id/departure_time")
+	public String updateDateTimeByFlightId(@RequestParam("id") Integer id, @RequestParam("datetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
 		flightService.updateDateTimeByFlightId(id, dateTime);
 		return "Departure Date Time Successfully Upated!";
 	}
@@ -149,31 +191,32 @@ public class AdminController {
 
 
 	//Delete by ID
-	@DeleteMapping("/routes/flight/delete/{id}")
-	public String deleteFlight(@PathVariable Integer id) {
+	@DeleteMapping("/routes/flight/delete")
+	public String deleteFlight(@RequestParam("id") Integer id) {
 		flightService.deleteFlight(id);
 		return "Flight Deleted!";
 	}
 
 
 	// Delete By Route ID
-	@DeleteMapping("/routes/flight/delete/route_id/{id}")
-	public String deleteFlightByRouteId(@PathVariable Integer id) {
+	@DeleteMapping("/routes/flight/delete/route_id")
+	public String deleteFlightByRouteId(@RequestParam("id") Integer id) {
 		flightService.deleteByRouteId(id);
 		return "Flight Deleted!";
 	}
 
 	// Delete By Airplane ID
-	@DeleteMapping("/routes/flight/delete/airplane_id/{id}")
-	public String deleteFlightByAirplaneId(@PathVariable Integer id) {
+	@DeleteMapping("/routes/flight/delete/airplane_id")
+	public String deleteFlightByAirplaneId(@RequestParam("id") Integer id) {
 		flightService.deleteByAirplaneId(id);
 		return "Flight Deleted!";
 	}
 	
-	// Delete By Airplane ID
-	@DeleteMapping("/routes/flight/delete/date_time/{dateTime}")
-	public String deleteFlightByDateTime(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
-		flightService.deleteByDateTime(dateTime);
+	
+	// Delete By Date
+	@DeleteMapping("/routes/flight/delete/date")
+	public String deleteFlightByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		flightService.deleteByDate(date);
 		return "Flight Deleted!";
 	}
 }

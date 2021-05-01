@@ -1,32 +1,36 @@
 package com.smoothstack.utopiaairlines.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.xmlunit.util.Convert;
 
-import com.smoothstack.utopiaairlines.dao.FlightDao;
 import com.smoothstack.utopiaairlines.entities.Airplane;
 import com.smoothstack.utopiaairlines.entities.Flight;
 import com.smoothstack.utopiaairlines.entities.Route;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;  
 @SpringBootTest
 @Transactional
 
 class FlightDaoTest {
-    @Autowired
+	
+    //@Autowired
+	//@InjectMocks
+	@Mock
     private FlightDao flightDao;
+	
     Flight flight;
     Route route;
     Airplane airplane;
@@ -69,15 +73,9 @@ class FlightDaoTest {
     	
     	route.setId(1);
     	flight.setRoute(route);
+    
     	
-    	airplane.setId(1);
-    	flight.setAirplane(airplane);
-    	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(10);
-    	flight.setBusiness_seats(7);
-    	flight.setEconomy_seats(30);
-    	flightDao.saveAndFlush(flight);
+    	//when(flightDao.findByRouteId(1)).thenReturn(List.of(flight));
     	
         assertEquals(3, flightDao.findByRouteId(1).size());
     }
@@ -108,11 +106,17 @@ class FlightDaoTest {
         assertEquals(2, flightDao.findByAirplaneId(2).size());
     }
     
+    
+    // fix thisssssssss
+    
     // Tests if correct number of flights are returned based on Date Time
     @Test
-    void TestfindByDateTime() {
+    void TestfindByDate() throws ParseException {
 	
-    	LocalDateTime localDateTime = LocalDateTime.parse("2013-09-18T20:40:00"); 	 	
+    	LocalDateTime localDateTime = LocalDateTime.parse("2013-09-18T20:40:00");
+    	Date date = new SimpleDateFormat("yyyy-MM-dd").parse("2013-09-18"); 	 	
+    	 
+    	
     	flight = new Flight();
     	route = new Route();
     	airplane = new Airplane();
@@ -129,7 +133,7 @@ class FlightDaoTest {
     	flight.setEconomy_seats(30);
     	flightDao.saveAndFlush(flight);
     	
-        assertEquals(2, flightDao.findByDT(localDateTime).size());
+        assertEquals(2, flightDao.findByDate(date).size());
     }    
     
 }

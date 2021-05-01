@@ -13,50 +13,53 @@ import com.smoothstack.utopiaairlines.entities.Flight;
 
 @Service
 public class AirplaneService {
-	
+
 	@Autowired
 	AirplaneDao airplaneDao;
-	
+
 	Airplane airplane;
 	Flight flight;
-	
+
 	// Add Airplane
 	public void addAirplane(Airplane airplane)  
 	{    
 		airplaneDao.save(airplane);    
 	}  
-	
-	
-	
+
+
+
 	// Read all airplanes
 	public List<Airplane> findAirplanes(){
 		List<Airplane> airplanes = airplaneDao.findAll();
 		return airplanes;
 	}
-	
+
 	// Read airplane by ID
 	public Optional<Airplane> findAirplaneById(Integer id){
 		Optional<Airplane> airplanes = airplaneDao.findById(id);
 		return airplanes;
 	}
-	
-	
+
+
 	// Update airplane By Id
 	public void updateAirplaneById(Integer id, Integer capacity){
-		Optional<Airplane> airplanes = findAirplaneById(id);
-		Airplane airplane = airplanes.get();
-		airplane.setId(id);
-		airplane.setCapacity(capacity);
-		
-		airplaneDao.save(airplane);
-	    
+		try {
+			Optional<Airplane> airplanes = findAirplaneById(id);
+			Airplane airplane = airplanes.get();
+			airplane.setCapacity(capacity);
+
+			airplaneDao.save(airplane);
+		} catch (Exception e) {
+			Optional.empty();
+		}
+
 	}
-	
-	
+
+
 	// Delete airplane
 	public void deleteAirplane(Integer id){
 		airplaneDao.deleteById(id);
 	}
-	
+
 
 }

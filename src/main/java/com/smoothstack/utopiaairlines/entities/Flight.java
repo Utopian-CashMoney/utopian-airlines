@@ -17,8 +17,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 @Entity
 @Table(name = "flight")
@@ -45,7 +43,7 @@ public class Flight implements Serializable {
 
     // Relationships
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference(value = "route-flight")
     @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
     

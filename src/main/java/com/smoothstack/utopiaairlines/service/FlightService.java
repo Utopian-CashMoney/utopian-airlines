@@ -1,6 +1,7 @@
 package com.smoothstack.utopiaairlines.service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +48,13 @@ public class FlightService {
 
 	// Read Flights By ID
 	public Optional<Flight> findFlightsById(Integer id){
-		Optional<Flight> flights = flightDao.findById(id);
-		return flights;
+		try {
+			Optional<Flight> flights = flightDao.findById(id);
+			return flights;
+		} catch (Exception e) {
+			Optional.empty();
+		}
+		return Optional.empty();
 	}
 
 
@@ -66,9 +72,30 @@ public class FlightService {
 	}
 
 
-	// Read Flights By Departure DateTime
-	public List<Flight> findFlightsByDateTime(LocalDateTime dateTime){
-		List<Flight> flights = flightDao.findByDT(dateTime);
+	// Read Flights By Departure Date
+	public List<Flight> findFlightsByDate(Date date){
+		List<Flight> flights = flightDao.findByDate(date);
+		return flights;
+	}
+	
+	
+	//Read all the Flights flying before the provided date
+	public List<Flight> findFlightsByDateBefore(Date date){
+		List<Flight> flights = flightDao.findByDateBefore(date);
+		return flights;
+	}
+	
+	
+	//Read all the Flights flying after the provided date
+	public List<Flight> findFlightsByDateAfter(Date date){
+		List<Flight> flights = flightDao.findByDateAfter(date);
+		return flights;
+	}
+	
+	
+	//Read all the Flights flying between the provided date
+	public List<Flight> findFlightsByDateBetween(Date dateStart, Date dateEnd){
+		List<Flight> flights = flightDao.findByDateBetween(dateStart, dateEnd);
 		return flights;
 	}
 
@@ -77,58 +104,79 @@ public class FlightService {
 	// Helper Method for updateRouteIdByFlightId()
 	// Read Routes By ID
 	public Optional<Route> findRouteById(Integer id){
-		Optional<Route> routes = routeDao.findById(id);
-		return routes;
+		try {
+			Optional<Route> routes = routeDao.findById(id);
+			return routes;
+		} catch (Exception e) {
+			Optional.empty();
+		}
+		return Optional.empty();
+
 	}
 
 
 
 
-	// Update Whole Flight by id
-	public void updateFlight(Flight flight){
-		flightDao.findById(flight.getId());
+	// Update Whole Flight by providing flight whole body
+	public boolean updateFlight(Flight flight){
+		flightDao.findById(flight.getId());		
 		flightDao.save(flight);
+		return true;
+
 	}
 
 	// Update Route ID by Flight ID in Flight
-	public void updateRouteIdByFlightId(Integer id, Integer routeId){
-		Optional<Flight> flights = findFlightsById(id);
-		Optional<Route> routes = findRouteById(routeId);
+	public boolean updateRouteIdByFlightId(Integer id, Integer routeId){
+		try {
+			Optional<Flight> flights = findFlightsById(id);
+			Optional<Route> routes = findRouteById(routeId);
 
-		Flight flight = flights.get();
-		Route route = routes.get();
+			Flight flight = flights.get();
+			Route route = routes.get();
 
-		flight.setId(id);
-		route.setId(routeId);
-		flight.setRoute(route);	
-		flightDao.save(flight);
+			if(!(flight == null)) {
+				route.setId(routeId);
+				flight.setRoute(route);	
+				flightDao.save(flight);
+				return true;
+			}
+		} catch (Exception e) {
+			Optional.empty();
+		}
+		return false;
 	}
 
 
 	// Update Airplane ID by Flight ID in Flight
 	public void updateAirplaneIdByFlightId(Integer id, Integer airplaneId){
-		Optional<Flight> flights = findFlightsById(id);
-		Optional<Airplane> airplanes = airplaneDao.findById(airplaneId);
 
-		Flight flight = flights.get();
-		Airplane airplane = airplanes.get();
+		try {
+			Optional<Flight> flights = findFlightsById(id);
+			Optional<Airplane> airplanes = airplaneDao.findById(airplaneId);
 
-		flight.setId(id);
-		airplane.setId(airplaneId);
-		flight.setAirplane(airplane);	
-		flightDao.save(flight);
+			Flight flight = flights.get();
+			Airplane airplane = airplanes.get();
+
+			airplane.setId(airplaneId);
+			flight.setAirplane(airplane);	
+			flightDao.save(flight);
+		} catch (Exception e) {
+			Optional.empty();
+		}
 	}
 
 
 	// Update Departure Date Time by Flight ID in Flight
 	public void updateDateTimeByFlightId(Integer id, LocalDateTime dateTime){
-		Optional<Flight> flights = findFlightsById(id);
+		try {
+			Optional<Flight> flights = findFlightsById(id);
 
-		Flight flight = flights.get();
-
-		flight.setId(id);
-		flight.setDeparture_time(dateTime);
-		flightDao.save(flight);
+			Flight flight = flights.get();
+			flight.setDeparture_time(dateTime);
+			flightDao.save(flight);
+		} catch (Exception e) {
+			Optional.empty();
+		}
 	}
 
 
@@ -157,11 +205,11 @@ public class FlightService {
 		flightDao.deleteAll(flights);
 		return size;
 	}
-	
-	
-	// Delete Flight by Departure Date Time
-	public Integer deleteByDateTime(LocalDateTime dateTime) {
-		List<Flight> flights = findFlightsByDateTime(dateTime);
+
+ 
+	// Delete Flight by Departure Date 
+	public Integer deleteByDate(Date date) {
+		List<Flight> flights = findFlightsByDate(date);
 		Integer size = flights.size();
 		flightDao.deleteAll(flights);
 		return size;

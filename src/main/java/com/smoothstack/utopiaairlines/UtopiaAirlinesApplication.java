@@ -2,12 +2,8 @@ package com.smoothstack.utopiaairlines;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-//@ComponentScan(basePackages = {"com.smoothstack.utopiaairlines.entities"})
-
-
 public class UtopiaAirlinesApplication {
 
     public static void main(String[] args) {
