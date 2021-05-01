@@ -33,8 +33,8 @@ class TicketDaoTest {
         //ticket.setFlightID(1);
         ticket.setFlight(flightDao.getOne(1));
         ticket.setTraveller(travellerDao.getOne(1));
-        ticket.setIs_cancelled(false);
-        ticket.setSeat_class("ECONOMY");
+        ticket.setIsCancelled(false);
+        ticket.setSeatClass("ECONOMY");
         ticketDao.saveAndFlush(ticket);
         ticket = ticketDao.getOne(new TicketPK(ticket.getFlightID(), ticket.getTravellerID()));
     }
