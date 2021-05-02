@@ -10,34 +10,42 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Admin service for Ticket-related CRUD operations
+ * @author Joshua Podhola
+ */
 @Service
 @Transactional
 public class TicketAdminService {
     @Autowired
     private TicketDao ticketDao;
 
-    List<Ticket> searchByMembershipNumber(String membershipNumber) {
+    public List<Ticket> getAll() {
+        return ticketDao.findAll();
+    }
+
+    public List<Ticket> searchByMembershipNumber(String membershipNumber) {
         return ticketDao.findByTraveller_MembershipNumberLike(membershipNumber);
     }
 
-    List<Ticket> searchByDepartureTimeAfter(LocalDateTime flight_departureTime) {
+    public List<Ticket> searchByDepartureTimeAfter(LocalDateTime flight_departureTime) {
         return ticketDao.findByFlight_DepartureTimeAfter(flight_departureTime);
     }
 
-    List<Ticket> searchByDepartureTimeBefore(LocalDateTime flight_departureTime) {
-        return ticketDao.findByFlight_DepartureTimeBefore(flight_departureTime);
+    public List<Ticket> searchByDepartureTimeBefore(LocalDateTime flightDepartureTime) {
+        return ticketDao.findByFlight_DepartureTimeBefore(flightDepartureTime);
     }
 
-    List<Ticket> searchByDepartureTimeRange(LocalDateTime flight_departureTime, LocalDateTime flight_departureTime2) {
-        return ticketDao.findByFlight_DepartureTimeBetween(flight_departureTime, flight_departureTime2);
+    public List<Ticket> searchByDepartureTimeRange(LocalDateTime flightDepartureTime, LocalDateTime flightDepartureTime2) {
+        return ticketDao.findByFlight_DepartureTimeBetween(flightDepartureTime, flightDepartureTime2);
     }
 
-    List<Ticket> searchByOriginCity(String flight_route_origin_city) {
-        return ticketDao.findByFlight_Route_Origin_CityLike(flight_route_origin_city);
+    public List<Ticket> searchByOriginCity(String flightRouteOriginCity) {
+        return ticketDao.findByFlight_Route_Origin_CityLike(flightRouteOriginCity);
     }
 
-    List<Ticket> searchByDestinationCity(String flight_route_destination_city) {
-        return ticketDao.findByFlight_Route_Destination_CityLike(flight_route_destination_city);
+    public List<Ticket> searchByDestinationCity(String flightRouteDestinationCity) {
+        return ticketDao.findByFlight_Route_Destination_CityLike(flightRouteDestinationCity);
     }
 
     /**
@@ -45,7 +53,7 @@ public class TicketAdminService {
      * @param ticket Ticket to add.
      * @return The created ticket, or null if it already exists (and thus no changes made)
      */
-    Ticket insert(Ticket ticket) {
+    public Ticket insert(Ticket ticket) {
         TicketPK ticketPK = new TicketPK(ticket.getFlightID(), ticket.getTravellerID());
         if(!ticketDao.existsById(ticketPK)) return ticketDao.save(ticket);
         return null;
@@ -56,7 +64,7 @@ public class TicketAdminService {
      * @param ticket Ticket to update.
      * @return The ticket that was updated, or null if it does not exist (and thus no changes made)
      */
-    Ticket update(Ticket ticket) {
+    public Ticket update(Ticket ticket) {
         TicketPK ticketPK = new TicketPK(ticket.getFlightID(), ticket.getTravellerID());
         if(ticketDao.existsById(ticketPK)) return ticketDao.save(ticket);
         return null;
@@ -67,7 +75,7 @@ public class TicketAdminService {
      * @param ticketPK Ticket primary key
      * @return True if it was deleted, false if not found.
      */
-    Boolean delete(TicketPK ticketPK) {
+    public Boolean delete(TicketPK ticketPK) {
         if(ticketDao.existsById(ticketPK)) {
             ticketDao.deleteById(ticketPK);
             return true;

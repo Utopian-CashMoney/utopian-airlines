@@ -1,6 +1,9 @@
 package com.smoothstack.utopiaairlines.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,10 +19,12 @@ public class Ticket implements Serializable {
     // Data
     @Id
     @Column(name = "flight_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Integer flightID;
 
     @Id
     @Column(name = "traveller_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Integer travellerID;
 
     @Column(name = "seat_class")
@@ -28,14 +33,12 @@ public class Ticket implements Serializable {
     @Column(name = "is_cancelled")
     private boolean isCancelled;
 
+    @JsonIgnoreProperties("tickets")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference(value="flight-tickets")
-    @JoinColumn(name="flight_id", referencedColumnName ="id")
     protected Flight flight;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference(value="ticket-traveller")
-    @JoinColumn(name="traveller_id", referencedColumnName ="id")
+    @JsonIgnoreProperties("flights")
     protected Traveller traveller;
 
     // Methods
