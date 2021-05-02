@@ -93,8 +93,6 @@ public class AdminController {
 		return flights;
 	}
 
-
-	// HEREEEEEEEEEEEEEEEEE
 	
 	// Read Flights by Route ID 
 	@GetMapping("/routes/flight/read/route_id")
@@ -112,14 +110,6 @@ public class AdminController {
 		flights = flightService.findFlightsByAirplaneId(airplaneId);
 		return flights;
 	}
-	
-	/*// Read Flights by Date Time 
-	@GetMapping("/routes/flight/read/date_time")
-	public List<Flight> getFlightsByDateTime(@RequestParam("datetime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
-		List<Flight> flights = new ArrayList<>();
-		flights = flightService.findFlightsByDateTime(dateTime);
-		return flights;
-	}*/
 	
 	
 	// Read Flights by Date 
@@ -149,7 +139,7 @@ public class AdminController {
 	}
 	
 	
-	// Read all the Flights flying netween the provided date
+	// Read all the Flights flying between the provided date
 	@GetMapping("/routes/flight/read/datebetween")
 	public List<Flight> getFlightsByDateBetween(@RequestParam("dateStart") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateStart, @RequestParam("dateEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateEnd) {
 		List<Flight> flights = new ArrayList<>();
