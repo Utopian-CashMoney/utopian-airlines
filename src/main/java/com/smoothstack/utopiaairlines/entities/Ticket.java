@@ -18,13 +18,11 @@ public class Ticket implements Serializable {
 
     // Data
     @Id
-    @Column(name = "flight_id", insertable = false, updatable = false)
-    @JsonIgnore
+    @Column(name = "flight_id")
     private Integer flightID;
 
     @Id
-    @Column(name = "traveller_id", insertable = false, updatable = false)
-    @JsonIgnore
+    @Column(name = "traveller_id")
     private Integer travellerID;
 
     @Column(name = "seat_class")
@@ -35,10 +33,12 @@ public class Ticket implements Serializable {
 
     @JsonIgnoreProperties("tickets")
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="flight_id", updatable = false, insertable = false)
     protected Flight flight;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("flights")
+    @JoinColumn(name="traveller_id", updatable = false, insertable = false)
     protected Traveller traveller;
 
     // Methods
