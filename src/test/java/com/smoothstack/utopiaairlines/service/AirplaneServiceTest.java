@@ -25,7 +25,7 @@ import com.smoothstack.utopiaairlines.entities.Airplane;
 @Transactional
 
 @RunWith(MockitoJUnitRunner.class)
-class AirplaneSericeTest {
+class AirplaneServiceTest {
 	
 	@InjectMocks
 	@Autowired

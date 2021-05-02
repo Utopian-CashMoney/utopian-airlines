@@ -151,7 +151,7 @@ class FlightServiceTest {
 		flight.setEconomySeats(14);
 
 
-		when(flightDao.findByDate(date)).thenReturn(List.of(flight));
+		when(flightDao.findByDate(date)).thenReturn(Collections.singletonList(flight));
 
 		List<Flight> flights = flightService.findFlightsByDate(date);
 
@@ -178,7 +178,7 @@ class FlightServiceTest {
 		flight.setEconomySeats(14);
 
 
-		when(flightDao.findByDateBefore(date)).thenReturn(List.of(flight));
+		when(flightDao.findByDateBefore(date)).thenReturn(Collections.singletonList(flight));
 
 		List<Flight> flights = flightService.findFlightsByDateBefore(date);
 
@@ -204,7 +204,7 @@ class FlightServiceTest {
 		flight.setEconomySeats(14);
 
 
-		when(flightDao.findByDateAfter(date)).thenReturn(List.of(flight));
+		when(flightDao.findByDateAfter(date)).thenReturn(Collections.singletonList(flight));
 
 		List<Flight> flights = flightService.findFlightsByDateAfter(date);
 
@@ -233,7 +233,7 @@ class FlightServiceTest {
 		flight.setEconomySeats(14);
 
 
-		when(flightDao.findByDateBetween(dateStart, dateEnd)).thenReturn(List.of(flight));
+		when(flightDao.findByDateBetween(dateStart, dateEnd)).thenReturn(Collections.singletonList(flight));
 
 		List<Flight> flights = flightService.findFlightsByDateBetween(dateStart, dateEnd);
 

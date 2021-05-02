@@ -128,9 +128,7 @@ public class FlightService {
 	}
 
 	// Update Route ID by Flight ID in Flight
-	public boolean updateRouteIdByFlightId(Integer id, Integer routeId){
-		boolean updated = false;
-
+	public void updateRouteIdByFlightId(Integer id, Integer routeId){
 		try {
 			Optional<Flight> flights = findFlightsById(id);
 			Optional<Route> routes = findRouteById(routeId);
@@ -141,15 +139,11 @@ public class FlightService {
 				route.setId(routeId);
 				flight.setRoute(route);	
 				flightDao.save(flight);
-				//updated = true;
-				return true;
 			}
 
 		} catch (Exception e) {
 			Optional.empty();
 		}
-
-		return false;
 
 	}
 
