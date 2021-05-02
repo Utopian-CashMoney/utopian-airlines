@@ -149,7 +149,7 @@ public class AdminController {
 	}
 	
 	
-	// Read all the Flights flying netween the provided date
+	// Read all the Flights flying between the provided date
 	@GetMapping("/routes/flight/read/datebetween")
 	public List<Flight> getFlightsByDateBetween(@RequestParam("dateStart") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateStart, @RequestParam("dateEnd") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateEnd) {
 		List<Flight> flights = new ArrayList<>();

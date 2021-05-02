@@ -1,6 +1,7 @@
 package com.smoothstack.utopiaairlines.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class FlightService {
 	public Optional<Flight> findFlightsById(Integer id){
 		try {
 			Optional<Flight> flights = flightDao.findById(id);
+			
 			return flights;
 		} catch (Exception e) {
 			Optional.empty();
@@ -77,22 +79,22 @@ public class FlightService {
 		List<Flight> flights = flightDao.findByDate(date);
 		return flights;
 	}
-	
-	
+
+
 	//Read all the Flights flying before the provided date
 	public List<Flight> findFlightsByDateBefore(Date date){
 		List<Flight> flights = flightDao.findByDateBefore(date);
 		return flights;
 	}
-	
-	
+
+
 	//Read all the Flights flying after the provided date
 	public List<Flight> findFlightsByDateAfter(Date date){
 		List<Flight> flights = flightDao.findByDateAfter(date);
 		return flights;
 	}
-	
-	
+
+
 	//Read all the Flights flying between the provided date
 	public List<Flight> findFlightsByDateBetween(Date dateStart, Date dateEnd){
 		List<Flight> flights = flightDao.findByDateBetween(dateStart, dateEnd);
@@ -127,23 +129,28 @@ public class FlightService {
 
 	// Update Route ID by Flight ID in Flight
 	public boolean updateRouteIdByFlightId(Integer id, Integer routeId){
+		boolean updated = false;
+
 		try {
 			Optional<Flight> flights = findFlightsById(id);
 			Optional<Route> routes = findRouteById(routeId);
-
 			Flight flight = flights.get();
 			Route route = routes.get();
 
-			if(!(flight == null)) {
+			if((flight != null)) {
 				route.setId(routeId);
 				flight.setRoute(route);	
 				flightDao.save(flight);
+				//updated = true;
 				return true;
 			}
+
 		} catch (Exception e) {
 			Optional.empty();
 		}
+
 		return false;
+
 	}
 
 
@@ -206,7 +213,7 @@ public class FlightService {
 		return size;
 	}
 
- 
+
 	// Delete Flight by Departure Date 
 	public Integer deleteByDate(Date date) {
 		List<Flight> flights = findFlightsByDate(date);
