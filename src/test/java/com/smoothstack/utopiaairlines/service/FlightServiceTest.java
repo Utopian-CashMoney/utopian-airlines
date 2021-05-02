@@ -8,9 +8,7 @@ import static org.mockito.Mockito.when;
 
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.transaction.Transactional;
 
@@ -19,9 +17,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.smoothstack.utopiaairlines.dao.FlightDao;
 import com.smoothstack.utopiaairlines.dao.RouteDao;
@@ -62,20 +58,20 @@ class FlightServiceTest {
 
     	LocalDateTime localDateTime = LocalDateTime.parse("2030-11-21T01:30:30"); 
     	    	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(10);
-    	flight.setBusiness_seats(20);
-    	flight.setEconomy_seats(30);
+    	flight.setDepartureTime(localDateTime);
+    	flight.setFirstClassSeats(10);
+    	flight.setBusinessSeats(20);
+    	flight.setEconomySeats(30);
     	
 		
 		when(flightDao.findById(1)).thenReturn(Optional.of(flight));
 		
 		Optional<Flight> flights = flightService.findFlightsById(1);
 
-		assertEquals(localDateTime, flights.get().getDeparture_time());
-		assertEquals(10, flights.get().getFirstclass_seats());
-		assertEquals(20, flights.get().getBusiness_seats());
-		assertEquals(30, flights.get().getEconomy_seats());	
+		assertEquals(localDateTime, flights.get().getDepartureTime());
+		assertEquals(10, flights.get().getFirstClassSeats());
+		assertEquals(20, flights.get().getBusinessSeats());
+		assertEquals(30, flights.get().getEconomySeats());
 	}
 	
 	
@@ -89,21 +85,22 @@ class FlightServiceTest {
     	flight = new Flight();
     	LocalDateTime localDateTime = LocalDateTime.parse("2025-01-14T12:30:30"); 
     	    	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(10);
-    	flight.setBusiness_seats(15);
-    	flight.setEconomy_seats(20);
+    	flight.setDepartureTime(localDateTime);
+    	flight.setFirstClassSeats(10);
+    	flight.setBusinessSeats(15);
+    	flight.setEconomySeats(20);
     	
     	//mockData.add(flight);
-    		
-		when(flightDao.findByRouteId(1)).thenReturn(List.of(flight));
-		
+
+		//Modified for Java 1.8 compliance. -Joshua
+		when(flightDao.findByRouteId(1)).thenReturn(Collections.singletonList(flight));
+
 		List<Flight> flights = flightService.findFlightsByRouteId(1);
 
-		assertEquals(localDateTime, flights.get(0).getDeparture_time());
-		assertEquals(10, flights.get(0).getFirstclass_seats());
-		assertEquals(15, flights.get(0).getBusiness_seats());
-		assertEquals(20, flights.get(0).getEconomy_seats());	
+		assertEquals(localDateTime, flights.get(0).getDepartureTime());
+		assertEquals(10, flights.get(0).getFirstClassSeats());
+		assertEquals(15, flights.get(0).getBusinessSeats());
+		assertEquals(20, flights.get(0).getEconomySeats());
 	}
 	
 	
@@ -114,20 +111,20 @@ class FlightServiceTest {
     	flight = new Flight();
     	LocalDateTime localDateTime = LocalDateTime.parse("2027-12-25T16:45:25"); 
     	    	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(5);
-    	flight.setBusiness_seats(7);
-    	flight.setEconomy_seats(9);
-    	
-		
-		when(flightDao.findByAirplaneId(1)).thenReturn(List.of(flight));
+    	flight.setDepartureTime(localDateTime);
+    	flight.setFirstClassSeats(5);
+    	flight.setBusinessSeats(7);
+    	flight.setEconomySeats(9);
+
+		//Modified for Java 1.8 compliance. -Joshua
+		when(flightDao.findByAirplaneId(1)).thenReturn(Collections.singletonList(flight));
 		
 		List<Flight> flights = flightService.findFlightsByAirplaneId(1);
 
-		assertEquals(localDateTime, flights.get(0).getDeparture_time());
-		assertEquals(5, flights.get(0).getFirstclass_seats());
-		assertEquals(7, flights.get(0).getBusiness_seats());
-		assertEquals(9, flights.get(0).getEconomy_seats());	
+		assertEquals(localDateTime, flights.get(0).getDepartureTime());
+		assertEquals(5, flights.get(0).getFirstClassSeats());
+		assertEquals(7, flights.get(0).getBusinessSeats());
+		assertEquals(9, flights.get(0).getEconomySeats());
 	}
 	
 	

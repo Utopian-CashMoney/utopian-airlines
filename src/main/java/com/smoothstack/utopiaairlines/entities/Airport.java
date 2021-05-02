@@ -1,6 +1,5 @@
 package com.smoothstack.utopiaairlines.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
@@ -9,8 +8,6 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,8 +19,8 @@ public class Airport implements Serializable {
 
     // Data
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String iata_id;
+    @Column(name = "iata_id")
+    private String iataId;
     
     @Column(name = "city")
     private String city;
@@ -31,19 +28,19 @@ public class Airport implements Serializable {
     // Relationships
     @JsonManagedReference(value = "airport-origin")
     @OneToMany(mappedBy = "origin")
-    private Collection<Route> origin_of;
+    private Collection<Route> originOf;
 
     @JsonManagedReference(value = "airport-destination")
     @OneToMany(mappedBy = "destination")
-    private Collection<Route> destination_of;
+    private Collection<Route> destinationOf;
 
     // Methods
-    public String getIata_id() {
-        return iata_id;
+    public String getIataId() {
+        return iataId;
     }
 
-    public void setIata_id(String iata) {
-        this.iata_id = iata;
+    public void setIataId(String iata) {
+        this.iataId = iata;
     }
 
     public String getCity() {
@@ -54,20 +51,20 @@ public class Airport implements Serializable {
         this.city = city;
     }
 
-    public Collection<Route> getOrigin_of() {
-        return origin_of;
+    public Collection<Route> getOriginOf() {
+        return originOf;
     }
 
-    public void setOrigin_of(Collection<Route> origin_of) {
-        this.origin_of = origin_of;
+    public void setOriginOf(Collection<Route> origin_of) {
+        this.originOf = origin_of;
     }
 
-    public Collection<Route> getDestination_of() {
-        return destination_of;
+    public Collection<Route> getDestinationOf() {
+        return destinationOf;
     }
 
-    public void setDestination_of(Collection<Route> destination_of) {
-        this.destination_of = destination_of;
+    public void setDestinationOf(Collection<Route> destination_of) {
+        this.destinationOf = destination_of;
     }
 
     @Override
@@ -75,11 +72,11 @@ public class Airport implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Airport airport = (Airport) o;
-        return Objects.equals(iata_id, airport.iata_id) && Objects.equals(city, airport.city) && Objects.equals(origin_of, airport.origin_of) && Objects.equals(destination_of, airport.destination_of);
+        return Objects.equals(iataId, airport.iataId) && Objects.equals(city, airport.city) && Objects.equals(originOf, airport.originOf) && Objects.equals(destinationOf, airport.destinationOf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(iata_id, city, origin_of, destination_of);
+        return Objects.hash(iataId, city, originOf, destinationOf);
     }
 }

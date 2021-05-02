@@ -172,7 +172,7 @@ public class FlightService {
 			Optional<Flight> flights = findFlightsById(id);
 
 			Flight flight = flights.get();
-			flight.setDeparture_time(dateTime);
+			flight.setDepartureTime(dateTime);
 			flightDao.save(flight);
 		} catch (Exception e) {
 			Optional.empty();

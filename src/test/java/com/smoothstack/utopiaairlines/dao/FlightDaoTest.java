@@ -1,18 +1,14 @@
 package com.smoothstack.utopiaairlines.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.smoothstack.utopiaairlines.entities.Airplane;
@@ -52,10 +48,10 @@ class FlightDaoTest {
     	airplane.setId(1);
     	flight.setAirplane(airplane);
     	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(10);
-    	flight.setBusiness_seats(7);
-    	flight.setEconomy_seats(30);
+    	flight.setDepartureTime(localDateTime);
+    	flight.setFirstClassSeats(10);
+    	flight.setBusinessSeats(7);
+    	flight.setEconomySeats(30);
     	flightDao.saveAndFlush(flight);
     	
         assertEquals("Optional.empty", flightDao.findById(1).toString());
@@ -97,10 +93,10 @@ class FlightDaoTest {
     	airplane.setId(2);	
     	flight.setAirplane(airplane);
     	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(10);
-    	flight.setBusiness_seats(7);
-    	flight.setEconomy_seats(30);
+    	flight.setDepartureTime(localDateTime);
+    	flight.setFirstClassSeats(10);
+    	flight.setBusinessSeats(7);
+    	flight.setEconomySeats(30);
     	flightDao.saveAndFlush(flight);
     	
         assertEquals(2, flightDao.findByAirplaneId(2).size());
@@ -127,10 +123,10 @@ class FlightDaoTest {
     	airplane.setId(2);	
     	flight.setAirplane(airplane);
     	
-    	flight.setDeparture_time(localDateTime);
-    	flight.setFirstclass_seats(10);
-    	flight.setBusiness_seats(7);
-    	flight.setEconomy_seats(30);
+    	flight.setDepartureTime(localDateTime);
+    	flight.setFirstClassSeats(10);
+    	flight.setBusinessSeats(7);
+    	flight.setEconomySeats(30);
     	flightDao.saveAndFlush(flight);
     	
         assertEquals(2, flightDao.findByDate(date).size());
