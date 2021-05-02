@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface TicketDao extends JpaRepository<Ticket, TicketPK> {
-    List<Ticket> findByTraveller_MembershipNumber(String membershipNumber);
+    List<Ticket> findByTraveller_MembershipNumberLike(String membershipNumber);
     List<Ticket> findByFlight_DepartureTimeAfter(LocalDateTime flight_departureTime);
     List<Ticket> findByFlight_DepartureTimeBefore(LocalDateTime flight_departureTime);
     List<Ticket> findByFlight_DepartureTimeBetween(LocalDateTime flight_departureTime, LocalDateTime flight_departureTime2);
