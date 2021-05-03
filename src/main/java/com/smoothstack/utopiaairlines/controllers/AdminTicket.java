@@ -5,6 +5,7 @@ import com.smoothstack.utopiaairlines.entities.TicketPK;
 import com.smoothstack.utopiaairlines.services.TicketAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -56,7 +57,7 @@ public class AdminTicket {
     }
 
     @GetMapping("/search/departure_after")
-    public List<Ticket> searchByDepartureTimeAfter(@RequestParam LocalDateTime time) {
+    public List<Ticket> searchByDepartureTimeAfter(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time) {
         try {
             return ticketAdminService.searchByDepartureTimeAfter(time);
         } catch(Exception e) {
@@ -66,7 +67,7 @@ public class AdminTicket {
     }
 
     @GetMapping("/search/departure_before")
-    public List<Ticket> searchByDepartureTimeBefore(@RequestParam LocalDateTime time) {
+    public List<Ticket> searchByDepartureTimeBefore(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time) {
         try {
             return ticketAdminService.searchByDepartureTimeBefore(time);
         } catch(Exception e) {
@@ -76,7 +77,8 @@ public class AdminTicket {
     }
 
     @GetMapping("/search/departure_between")
-    public List<Ticket> searchByDepartureTimeRange(@RequestParam LocalDateTime lower, @RequestParam LocalDateTime upper) {
+    public List<Ticket> searchByDepartureTimeRange(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime lower,
+                                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime upper) {
         try {
             return ticketAdminService.searchByDepartureTimeRange(lower, upper);
         } catch(Exception e) {
