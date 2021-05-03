@@ -3,9 +3,12 @@ package com.smoothstack.utopiaairlines.controllers;
 import com.smoothstack.utopiaairlines.entities.Traveller;
 import com.smoothstack.utopiaairlines.services.TravellerAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Controllers for administrative Traveller-related CRUD operations.
@@ -66,6 +69,8 @@ public class AdminTraveller {
         try {
             traveller = travellerAdminService.create(traveller);
             return(String.format("Traveller created with ID %d", traveller.getId()));
+        } catch (DataIntegrityViolationException e) {
+            return Objects.requireNonNull(e.getRootCause()).getLocalizedMessage();
         } catch (Exception e) {
             e.printStackTrace();
             return("Creation failed.");
@@ -125,6 +130,8 @@ public class AdminTraveller {
                 return ("No traveller found with that membership ID.");
             }
             return("Given and family name updated.");
+        } catch (DataIntegrityViolationException e) {
+            return Objects.requireNonNull(e.getRootCause()).getLocalizedMessage();
         } catch (Exception e) {
             e.printStackTrace();
             return("Update failed.");
