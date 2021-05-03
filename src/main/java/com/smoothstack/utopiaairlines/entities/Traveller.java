@@ -1,9 +1,12 @@
 package com.smoothstack.utopiaairlines.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -35,9 +38,9 @@ public class Traveller implements Serializable {
     private String membershipNumber;
 
     // Relationships
-    @JsonManagedReference(value = "ticket-traveller")
     @OneToMany(mappedBy = "traveller")
-    private Collection<Ticket> tickets;
+    @JsonIgnoreProperties("traveller")
+    private List<Ticket> tickets;
 
     // Methods
     public Integer getId() {
@@ -72,11 +75,11 @@ public class Traveller implements Serializable {
         this.membershipNumber = memebership_number;
     }
 
-    public Collection<Ticket> getFlights() {
+    public List<Ticket> getFlights() {
         return tickets;
     }
 
-    public void setFlights(Collection<Ticket> tickets) {
+    public void setFlights(List<Ticket> tickets) {
         this.tickets = tickets;
     }
 

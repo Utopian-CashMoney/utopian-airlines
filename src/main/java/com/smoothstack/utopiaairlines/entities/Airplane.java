@@ -1,7 +1,6 @@
 package com.smoothstack.utopiaairlines.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -31,8 +30,8 @@ public class Airplane implements Serializable {
     private Integer capacity;
 
     // Relationships
-    @JsonManagedReference(value = "airplane-flights")
     @OneToMany(mappedBy = "airplane")
+    @JsonIgnoreProperties("airplane")
     private Collection<Flight> flights;
 
     // Methods
