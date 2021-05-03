@@ -4,10 +4,12 @@ import com.smoothstack.utopiaairlines.entities.Ticket;
 import com.smoothstack.utopiaairlines.entities.TicketPK;
 import com.smoothstack.utopiaairlines.services.TicketAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Controllers for administrative Ticket-related CRUD operations.
@@ -111,6 +113,8 @@ public class AdminTicket {
                 return "Ticket updated";
             }
             return "Ticket does not yet exist.";
+        } catch (DataIntegrityViolationException e) {
+            return Objects.requireNonNull(e.getRootCause()).getLocalizedMessage();
         } catch (Exception e) {
             e.printStackTrace();
             return "Error updating ticket.";
@@ -126,6 +130,8 @@ public class AdminTicket {
                 return "Ticket deleted.";
             }
             return "Ticket not found.";
+        } catch (DataIntegrityViolationException e) {
+            return Objects.requireNonNull(e.getRootCause()).getLocalizedMessage();
         } catch (Exception e) {
             e.printStackTrace();
             return "Error deleting ticket.";
