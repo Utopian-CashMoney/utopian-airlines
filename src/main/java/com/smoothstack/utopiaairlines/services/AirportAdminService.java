@@ -1,9 +1,8 @@
-/**
- * 
- */
 package com.smoothstack.utopiaairlines.services;
 
 import java.util.List;
+
+import javax.persistence.Id;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,12 +39,12 @@ public class AirportAdminService {
 	 * Return a airport specified by an id
 	 * 
 	 * @author Josten Asercion
-	 * @param id the id
+	 * @param IataId the IataId
 	 * @return Airport specified by the id, null if DNE
 	 */
 
-	public List<Airport> searchByIataId(String IataId) {
-		return airportDAO.findByIataIdLike(IataId);
+	public Airport searchByIataId(String IataId) {
+		return airportDAO.getById(IataId);
 	}
 
 	/**
@@ -55,10 +54,10 @@ public class AirportAdminService {
 	 * @param city the city
 	 * @return Airport specified by the city, null if DNE
 	 */
-	
-	 public List<Airport> searchByCity(String city) { return
-	 airportDAO.findByCityLike(city); }
-	 
+
+	public List<Airport> searchByCity(String city) {
+		return airportDAO.findByCityLike(String.format("%%s%", city));
+	}
 
 	/**
 	 * Update the city of the airport by the iata id
@@ -66,22 +65,18 @@ public class AirportAdminService {
 	 * @author Josten Asercion
 	 * @param iataId the iata id of the airport
 	 * @param city   the new city to assign to the airport
-	 * @return Null if multiple matching iata ids, true if one, false if none
+	 * @return true if one matching iata id is found, false if none are found
 	 */
 	public Boolean updateCityById(String iataId, String city) {
 
-		List<Airport> airports = this.searchByIataId(iataId);
-		if (airports.size() > 1) {
-			return null;
-		}
-		if (airports.size() == 0) {
-			return false;
-		}
-		Airport airport = airports.get(0);
-		airport.setCity(city);
+		if (this.searchByIataId(iataId) != null) {
+			Airport airport = this.searchByIataId(iataId);
+			airport.setCity(city);
 
-		airportDAO.save(airport);
-		return true;
+			airportDAO.save(airport);
+			return true;
+		} else
+			return false;
 	}
 
 	/**
@@ -91,7 +86,7 @@ public class AirportAdminService {
 	 * @param id the iata id for the airport to be deleted
 	 */
 	public void deleteAirport(String iataId) {
-		List<Airport> airports = this.searchByIataId(iataId);
-		airportDAO.deleteAll(airports);
+		Airport airport = this.searchByIataId(iataId);
+		airportDAO.delete(airport);
 	}
 }

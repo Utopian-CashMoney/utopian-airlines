@@ -13,7 +13,9 @@ import com.smoothstack.utopiaairlines.entities.Airport;
 @Transactional
 public interface AirportDao extends JpaRepository<Airport, String> {
 
-	List<Airport> findByIataIdLike(String iataId);
+	List<Airport> findByIataId(String iataId);
 
 	List<Airport> findByCityLike(String city);
+
+	Airport getById(String iataId);
 }

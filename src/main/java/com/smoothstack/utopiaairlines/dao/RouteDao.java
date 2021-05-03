@@ -12,9 +12,13 @@ import com.smoothstack.utopiaairlines.entities.Route;
 @Repository
 @Transactional
 public interface RouteDao extends JpaRepository<Route, Integer> {
-	
+
 	Optional<Route> findById(Integer id);
-	List <Route> findByOriginLike(String origin);
-	List <Route> findByDestinationLike(String destination);
+
+	// List <Route> findByOriginLike(Airport origin);
+	// List <Route> findByDestinationLike(Airport destination);
+	List<Route> findByOrigin_IataIdLike(String iataId);
+
+	List<Route> findByDestination_IataIdLike(String iataId);
 
 }

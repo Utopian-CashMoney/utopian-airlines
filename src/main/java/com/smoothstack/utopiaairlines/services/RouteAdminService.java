@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.smoothstack.utopiaairlines.services;
 
 import java.util.List;
@@ -54,41 +51,38 @@ public class RouteAdminService {
 	 * Return a list of routes with a specified origin
 	 * 
 	 * @author Josten Asercion
-	 * @param origin the origin to search for
+	 * @param originId the iata id of the origin airport to search by
 	 * @return list of routes of the specified origin
 	 */
-	public List<Route> searchByOrigin(String origin) {
-		return routeDAO.findByOriginLike(origin);
+	public List<Route> searchByOrigin(String originId) {
+		return routeDAO.findByOrigin_IataIdLike(originId);
 	}
 
 	/**
 	 * Return a list of routes with a specified destination
 	 * 
 	 * @author Josten Asercion
-	 * @param destination the destination to search for
+	 * @param destinationIf the iata id of the destination airport to search by
 	 * @return list of routes of the specified destination
 	 */
-	public List<Route> searchByDestination(String destination) {
-		return routeDAO.findByDestinationLike(destination);
+	public List<Route> searchByDestination(String destinationId) {
+		return routeDAO.findByDestination_IataIdLike(destinationId);
 	}
 
-	
 	/**
 	 * Update the origin airport of the route by an id
 	 * 
 	 * @author Josten Asercion
-	 * @param airport the new origin airport
-	 * @param iata    the new iata code for the route origin
+	 * @param id      the id of the route to modify
+	 * @param airport the new airport to set as the new origin
 	 */
 	public void updateOriginById(Integer id, Airport airport) {
-		try {
-			Optional<Route> routes = this.searchById(id);
+		Optional<Route> routes = this.searchById(id);
+		if (routes.isPresent()) {
 			Route route = routes.get();
 			route.setOrigin(airport);
 
 			routeDAO.save(route);
-		} catch (Exception e) {
-			Optional.empty();
 		}
 	}
 
@@ -96,18 +90,16 @@ public class RouteAdminService {
 	 * Update the destination airport of the route by an id
 	 * 
 	 * @author Josten Asercion
-	 * @param airport the new destination airport
-	 * @param iata    the new iata code for the route destination
+	 * @param id      the id of the route to modify
+	 * @param airport the new airport to set as the new destination
 	 */
 	public void updateDestinationById(Integer id, Airport airport) {
-		try {
-			Optional<Route> routes = this.searchById(id);
+		Optional<Route> routes = this.searchById(id);
+		if (routes.isPresent()) {
 			Route route = routes.get();
 			route.setDestination(airport);
 
 			routeDAO.save(route);
-		} catch (Exception e) {
-			Optional.empty();
 		}
 	}
 

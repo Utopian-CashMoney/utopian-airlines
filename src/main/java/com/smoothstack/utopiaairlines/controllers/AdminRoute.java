@@ -3,7 +3,10 @@
  */
 package com.smoothstack.utopiaairlines.controllers;
 
+import com.smoothstack.utopiaairlines.dao.AirportDao;
+import com.smoothstack.utopiaairlines.entities.Airport;
 import com.smoothstack.utopiaairlines.entities.Route;
+import com.smoothstack.utopiaairlines.services.AirportAdminService;
 import com.smoothstack.utopiaairlines.services.RouteAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +32,9 @@ public class AdminRoute {
 	@Autowired
 	private RouteAdminService routeAdminService;
 
+	@Autowired
+	private AirportAdminService airportAdminService;
+
 	@PostMapping("/create")
 	public String create(@RequestBody Route route) {
 		try {
@@ -52,10 +58,9 @@ public class AdminRoute {
 
 	@GetMapping("/id/{id}")
 	public Route searchById(@PathVariable("id") Integer id) {
-		try {
+		if (routeAdminService.searchById(id).isPresent())
 			return routeAdminService.searchById(id).get();
-		} catch (Exception e) {
-			e.printStackTrace();
+		else {
 			return null;
 		}
 	}
@@ -80,14 +85,32 @@ public class AdminRoute {
 		}
 	}
 
-	/*
-	 * Put update here. FINISH AFTER AIRPORT IS DONE.
-	 * 
-	 * @PutMapping("/update/{id}/origin/{origin}") public String
-	 * update(@PathVariable("id") Integer id, @PathVariable("origin") ) { return
-	 * "Work in progress."; }
-	 */
+	@PutMapping("/update/{id}/origin/{origin}")
+	public String updateOrigin(@PathVariable("id") Integer id, @PathVariable("origin") String origin) {
+		try {
+			Airport airport = airportAdminService.searchByIataId(origin);
+			routeAdminService.updateOriginById(id, airport);
 
+			return "Origin updated.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Failed to update origin.";
+		}
+	}
+
+	@PutMapping("/update/{id}/destination/{destination}")
+	public String updateDestination(@PathVariable("id") Integer id, @PathVariable("destination") String destination) {
+		try {
+			Airport airport = airportAdminService.searchByIataId(destination);
+			routeAdminService.updateDestinationById(id, airport);
+
+			return "Destination updated.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Failed to update destination.";
+		}
+	}
+	
 	@DeleteMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Integer id) {
 		try {

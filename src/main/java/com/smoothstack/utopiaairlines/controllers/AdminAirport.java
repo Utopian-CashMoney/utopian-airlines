@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.smoothstack.utopiaairlines.controllers;
 
 import com.smoothstack.utopiaairlines.entities.Airport;
@@ -43,7 +40,7 @@ public class AdminAirport {
 	}
 
 	@GetMapping("/iataId/{id}")
-	public List<Airport> searchById(@PathVariable("id") String id) {
+	public Airport searchById(@PathVariable("id") String id) {
 		try {
 			return airportAdminService.searchByIataId(id);
 		} catch (Exception e) {
@@ -62,13 +59,17 @@ public class AdminAirport {
 		}
 	}
 
-	/*
-	 * Put update here. Not done yet.
-	 * 
-	 * @PutMapping("/update/{id}/origin/{origin}") public String
-	 * update(@PathVariable("id") Integer id, @PathVariable("origin") ) { return
-	 * "Work in progress."; }
-	 */
+	@PutMapping("/update/{id}/{city}")
+	public String updateCity(@PathVariable("id") String id, @PathVariable("city") String city) {
+		try {
+			airportAdminService.updateCityById(id, city);
+
+			return "Successfully updated city.";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Failed to update city.";
+		}
+	}
 
 	@DeleteMapping("/delete/{id}")
 	public String delete(@PathVariable("id") String id) {
